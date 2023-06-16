@@ -5,11 +5,7 @@ import UserService from '../services/user-service';
 import UserModel from '../models/user';
 
 export default class UserController {
-    private userService: UserService;
-
-    constructor(userService: UserService) {
-        this.userService = userService;
-    }
+    private userService = new UserService();
 
     getUsers = async (req: Request, res: Response): Promise<void> => {
         const users = await this.userService.getUsers();
@@ -21,6 +17,10 @@ export default class UserController {
         const id = Number(req.params.id);
 
         const user = await this.userService.getUserById(id);
+        if (!user) {
+            res.status(StatusCodes.NOT_FOUND).send();
+            return;
+        }
 
         res.status(StatusCodes.OK).send(user);
     };

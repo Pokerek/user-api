@@ -1,7 +1,9 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+
 import SequelizeConnection from './services/sequalize-connection';
+import UserRoute from './routes/user-route';
 
 dotenv.config();
 
@@ -14,7 +16,7 @@ class Application {
         this.app = express();
         this.initMiddleware();
         this.initRoutes();
-        SequelizeConnection.instance();
+        SequelizeConnection.instance().sync();
     }
 
     start() {
@@ -24,6 +26,8 @@ class Application {
     }
 
     private initRoutes() {
+        const userRoute = new UserRoute();
+        this.app.use('/api', userRoute.router);
         this.app.get('/', (req, res) => {
             res.send('Hello World');
         });

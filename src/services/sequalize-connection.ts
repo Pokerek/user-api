@@ -2,7 +2,7 @@ import { Sequelize } from 'sequelize';
 
 const database = {
     host: process.env.DB_HOST || 'localhost',
-    username: process.env.DB_USER || 'root',
+    username: process.env.DB_USER || 'user',
     password: process.env.DB_PASSWORD || 'password',
     port: Number(process.env.DB_PORT) || 3306,
     name: process.env.DB_NAME || 'test'
