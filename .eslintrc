@@ -12,6 +12,16 @@
         "prettier"
     ],
     "rules": {
-        "prettier/prettier": "error"
+        "prettier/prettier": [
+            "error",
+            {
+                "semi": true,
+                "trailingComma": "none",
+                "singleQuote": true,
+                "printWidth": 80,
+                "endOfLine": "auto",
+                "tabWidth": 4
+            }
+        ]
     }
 }

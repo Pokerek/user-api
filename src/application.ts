@@ -1,6 +1,9 @@
 import express from 'express';
-import { NUMBER } from 'sequelize';
 import cors from 'cors';
+import dotenv from 'dotenv';
+import SequelizeConnection from './services/sequalize-connection';
+
+dotenv.config();
 
 const PORT = Number(process.env.PORT) || 3000;
 
@@ -11,6 +14,7 @@ class Application {
         this.app = express();
         this.initMiddleware();
         this.initRoutes();
+        SequelizeConnection.instance();
     }
 
     start() {
