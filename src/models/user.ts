@@ -18,7 +18,7 @@ const EMAIL_MAX_LENGTH = 64;
 UserModel.init(
     {
         id: {
-            type: DataTypes.INTEGER.UNSIGNED,
+            type: DataTypes.INTEGER,
             autoIncrement: true,
             primaryKey: true
         },
