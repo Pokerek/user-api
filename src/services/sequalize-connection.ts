@@ -25,6 +25,6 @@ export default class SequelizeConnection {
         if (!SequelizeConnection.sequelize) {
             SequelizeConnection.init();
         }
-        return SequelizeConnection.instance;
+        return SequelizeConnection.sequelize;
     };
 }
