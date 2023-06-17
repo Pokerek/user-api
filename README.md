@@ -42,7 +42,7 @@ Follow the steps below to set up the MySQL database using Docker Compose:
    docker-compose up
    ```
 
-   Docker Compose will automatically download the necessary MySQL image and start both the API server and the database container.
+   Docker Compose will automatically download the necessary MySQL image and start the database container.
 
 ## Packages Used
 

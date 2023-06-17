@@ -2,12 +2,12 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 
+dotenv.config();
+
 import ErrorMiddleware from './middlewares/error-middleware';
 import SequelizeConnection from './services/sequelize-connection';
 import UserRoute from './routes/user-route';
 import JwtMiddleware from './middlewares/jwt-middleware';
-
-dotenv.config();
 
 const PORT = Number(process.env.PORT) || 3000;
 
