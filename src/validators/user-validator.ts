@@ -3,19 +3,22 @@ import Joi from 'joi';
 import { User, UserUpdate } from '../models/user';
 import HttpError from '../errors/http-error';
 import { StatusCodes } from 'http-status-codes';
+import { UserRole } from '../generic/constants';
 
 const newUserSchema = Joi.object({
     firstName: Joi.string(),
     lastName: Joi.string(),
     email: Joi.string().email().required(),
-    role: Joi.string().valid('admin', 'user').required()
+    role: Joi.string()
+        .valid(...Object.values(UserRole))
+        .required()
 });
 
 const updateUserSchema = Joi.object({
     firstName: Joi.string(),
     lastName: Joi.string(),
     email: Joi.string().email(),
-    role: Joi.string().valid('admin', 'user')
+    role: Joi.string().valid(...Object.values(UserRole))
 });
 
 export default class UserValidator {
