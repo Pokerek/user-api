@@ -1,8 +1,11 @@
 import UserModel from '../models/user';
 
+import UserAlreadyExist from '../errors/user-already-exist-error';
+import UserNotFound from '../errors/user-not-found-error';
+
 export default class UserService {
     getUsers = async (): Promise<UserModel[]> => {
-        return await UserModel.findAll({});
+        return await UserModel.findAll();
     };
 
     getUserById = async (id: number): Promise<UserModel | null> => {
@@ -16,8 +19,7 @@ export default class UserService {
             }
         });
         if (foundUser) {
-            //TODO throw error
-            throw new Error('User already exists');
+            throw new UserAlreadyExist(user.email);
         }
 
         await UserModel.create({
@@ -32,8 +34,7 @@ export default class UserService {
         const foundUser = await UserModel.findByPk(id);
 
         if (!foundUser) {
-            //TODO throw error
-            throw new Error('User not found');
+            throw new UserNotFound(id);
         }
 
         await UserModel.update(user, {
@@ -47,8 +48,7 @@ export default class UserService {
         const foundUser = await UserModel.findByPk(id);
 
         if (!foundUser) {
-            //TODO throw error
-            throw new Error('User not found');
+            throw new UserNotFound(id);
         }
 
         await UserModel.destroy({

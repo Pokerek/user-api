@@ -1,7 +1,9 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import { Request, Response, NextFunction } from 'express';
 
+import ErrorMiddleware from './middlewares/error-middleware';
 import SequelizeConnection from './services/sequalize-connection';
 import UserRoute from './routes/user-route';
 
@@ -15,8 +17,10 @@ class Application {
     constructor() {
         this.app = express();
         this.initMiddleware();
-        this.initRoutes();
         SequelizeConnection.instance().sync();
+        this.initRoutes();
+
+        this.initErrorHandling();
     }
 
     start() {
@@ -37,6 +41,10 @@ class Application {
         this.app.use(cors());
         this.app.use(express.json());
         this.app.use(express.urlencoded({ extended: true }));
+    }
+
+    private initErrorHandling() {
+        this.app.use(ErrorMiddleware.errorHandler);
     }
 }
 
