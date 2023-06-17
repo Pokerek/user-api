@@ -16,7 +16,7 @@ This repository contains an User API application written in TypeScript using Nod
    PORT=3000
    DB_HOST=localhost
    DB_PORT=3306
-   DB_USER=user
+   DB_USERNAME=user
    DB_PASSWORD=password
    DB_DATABASE=test
    JWT_SECRET_KEY=yourjwtsecret
