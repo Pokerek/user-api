@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 import ErrorMiddleware from './middlewares/error-middleware';
 import SequelizeConnection from './services/sequelize-connection';
 import UserRoute from './routes/user-route';
+import JwtMiddleware from './middlewares/jwt-middleware';
 
 dotenv.config();
 
@@ -31,9 +32,7 @@ class Application {
     private initRoutes() {
         const userRoute = new UserRoute();
         this.app.use('/api', userRoute.router);
-        this.app.get('/', (req, res) => {
-            res.send('Hello World');
-        });
+        this.app.get('/api/key', JwtMiddleware.signJwt);
     }
 
     private initMiddleware() {
