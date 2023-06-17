@@ -11,7 +11,7 @@ export interface User {
     role: string;
 }
 
-export type UserUpdate = Partial<User>;
+export type UserUpdate = Partial<Omit<User, 'email'>>;
 
 export default class UserModel extends Model {
     declare id: number;

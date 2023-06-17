@@ -13,8 +13,10 @@ export default class UserController {
         res: Response,
         next: NextFunction
     ): Promise<void> => {
+        const role = req.query.role as string | undefined;
+
         try {
-            const users = await this.userService.getUsers();
+            const users = await this.userService.getUsers(role);
 
             res.status(StatusCodes.OK).send(users);
         } catch (error) {
@@ -65,7 +67,7 @@ export default class UserController {
         next: NextFunction
     ): Promise<void> => {
         const id = Number(req.params.id);
-        const user = req.body as unknown;
+        const user = req.body;
 
         try {
             const validatedUser = UserValidator.updateUser(user);

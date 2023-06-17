@@ -2,9 +2,16 @@ import UserModel, { User, UserUpdate } from '../models/user';
 
 import UserAlreadyExist from '../errors/user-already-exist-error';
 import UserNotFound from '../errors/user-not-found-error';
+import { UserRole } from '../generic/constants';
 
 export default class UserService {
-    getUsers = async (): Promise<UserModel[]> => {
+    getUsers = async (role: string | undefined): Promise<UserModel[]> => {
+        const roles: Array<string> = Object.values(UserRole);
+
+        if (role && roles.includes(role)) {
+            return await UserModel.findAll({ where: { role } });
+        }
+
         return await UserModel.findAll();
     };
 
@@ -28,8 +35,8 @@ export default class UserService {
         }
 
         await UserModel.create({
-            firstName: user.firstName || null,
-            lastName: user.lastName || null,
+            firstName: user.firstName,
+            lastName: user.lastName,
             email: user.email,
             role: user.role
         });

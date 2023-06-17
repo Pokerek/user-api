@@ -6,8 +6,8 @@ import { StatusCodes } from 'http-status-codes';
 import { UserRole } from '../generic/constants';
 
 const newUserSchema = Joi.object({
-    firstName: Joi.string(),
-    lastName: Joi.string(),
+    firstName: Joi.string().default(''),
+    lastName: Joi.string().default(''),
     email: Joi.string().email().required(),
     role: Joi.string()
         .valid(...Object.values(UserRole))
@@ -17,7 +17,6 @@ const newUserSchema = Joi.object({
 const updateUserSchema = Joi.object({
     firstName: Joi.string(),
     lastName: Joi.string(),
-    email: Joi.string().email(),
     role: Joi.string().valid(...Object.values(UserRole))
 });
 
@@ -34,6 +33,19 @@ export default class UserValidator {
     };
 
     static updateUser = (user: unknown) => {
+        if (
+            typeof user !== 'object' ||
+            user === null ||
+            Object.keys(user).length === 0
+        ) {
+            throw new HttpError(
+                StatusCodes.BAD_REQUEST,
+                `Body needs to be an object with at least one property [${Object.keys(
+                    updateUserSchema.describe().keys
+                )}]`
+            );
+        }
+
         const { error, value } = updateUserSchema.validate(user, {
             abortEarly: false
         });
