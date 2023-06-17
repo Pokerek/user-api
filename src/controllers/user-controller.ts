@@ -3,6 +3,7 @@ import { StatusCodes } from 'http-status-codes';
 
 import UserService from '../services/user-service';
 import UserValidator from '../validators/user-validator';
+import UserNotFound from '../errors/user-not-found-error';
 
 export default class UserController {
     private userService = new UserService();
@@ -32,8 +33,7 @@ export default class UserController {
             const user = await this.userService.getUserById(id);
 
             if (!user) {
-                res.status(StatusCodes.NOT_FOUND).send();
-                return;
+                throw new UserNotFound(id);
             }
 
             res.status(StatusCodes.OK).send(user);
@@ -50,7 +50,7 @@ export default class UserController {
         const user = req.body as unknown;
 
         try {
-            const validatedUser = await UserValidator.createUser(user);
+            const validatedUser = UserValidator.createUser(user);
             await this.userService.createUser(validatedUser);
 
             res.status(StatusCodes.CREATED).send();
@@ -68,7 +68,7 @@ export default class UserController {
         const user = req.body as unknown;
 
         try {
-            const validatedUser = await UserValidator.updateUser(user);
+            const validatedUser = UserValidator.updateUser(user);
             await this.userService.updateUser(id, validatedUser);
 
             res.status(StatusCodes.OK).send();

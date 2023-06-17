@@ -1,27 +1,44 @@
-import { object, string } from 'joi';
+import Joi from 'joi';
 
 import { User, UserUpdate } from '../models/user';
+import HttpError from '../errors/http-error';
+import { StatusCodes } from 'http-status-codes';
 
-const validateNewUser = object({
-    firstName: string(),
-    lastName: string(),
-    email: string().email().required(),
-    role: string().valid('admin', 'user').required()
+const newUserSchema = Joi.object({
+    firstName: Joi.string(),
+    lastName: Joi.string(),
+    email: Joi.string().email().required(),
+    role: Joi.string().valid('admin', 'user').required()
 });
 
-const validateUpdateUser = object({
-    firstName: string(),
-    lastName: string(),
-    email: string().email(),
-    role: string().valid('admin', 'user')
+const updateUserSchema = Joi.object({
+    firstName: Joi.string(),
+    lastName: Joi.string(),
+    email: Joi.string().email(),
+    role: Joi.string().valid('admin', 'user')
 });
 
 export default class UserValidator {
-    static createUser = async (user: unknown): Promise<User> => {
-        return await validateNewUser.validateAsync(user);
+    static createUser = (user: unknown) => {
+        const { error, value } = newUserSchema.validate(user, {
+            abortEarly: false
+        });
+        if (error) {
+            throw new HttpError(StatusCodes.BAD_REQUEST, error.message);
+        }
+
+        return value as User;
     };
 
-    static updateUser = async (user: unknown): Promise<UserUpdate> => {
-        return await validateUpdateUser.validateAsync(user);
+    static updateUser = (user: unknown) => {
+        const { error, value } = updateUserSchema.validate(user, {
+            abortEarly: false
+        });
+
+        if (error) {
+            throw new HttpError(StatusCodes.BAD_REQUEST, error.message);
+        }
+
+        return value as UserUpdate;
     };
 }

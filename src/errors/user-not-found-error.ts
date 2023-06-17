@@ -1,7 +1,8 @@
-import HttpException from './http-error';
+import { StatusCodes } from 'http-status-codes';
+import HttpError from './http-error';
 
-export default class UserNotFound extends HttpException {
+export default class UserNotFound extends HttpError {
     constructor(id: number) {
-        super(404, `User with ${id} not found`);
+        super(StatusCodes.NOT_FOUND, `User with ${id} not found`);
     }
 }

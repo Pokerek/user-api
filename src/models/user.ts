@@ -1,6 +1,6 @@
 import { DataTypes, Model } from 'sequelize';
 
-import SequelizeConnection from '../services/sequalize-connection';
+import SequelizeConnection from '../services/sequelize-connection';
 
 import { UserRole } from '../generic/constants';
 

@@ -1,9 +1,10 @@
 import { NextFunction, Request, Response } from 'express';
-import HttpException from '../errors/http-error';
+import HttpError from '../errors/http-error';
+import { StatusCodes } from 'http-status-codes';
 
 export default class ErrorMiddleware {
     private static errorHttpHandler = (
-        error: HttpException,
+        error: HttpError,
         req: Request,
         res: Response
     ) => {
@@ -23,12 +24,14 @@ export default class ErrorMiddleware {
             next(error);
         }
 
-        if (error instanceof HttpException) {
+        if (error instanceof HttpError) {
             ErrorMiddleware.errorHttpHandler(error, req, res);
             return;
         }
 
         console.log('ERROR: ' + error.message);
-        next(new HttpException(500, 'Internal server error'));
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR).send(
+            'Internal Server Error'
+        );
     };
 }

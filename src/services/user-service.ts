@@ -9,7 +9,12 @@ export default class UserService {
     };
 
     getUserById = async (id: number): Promise<UserModel | null> => {
-        return await UserModel.findByPk(id);
+        const user = await UserModel.findByPk(id);
+        if (!user) {
+            throw new UserNotFound(id);
+        }
+
+        return user;
     };
 
     createUser = async (user: User): Promise<void> => {

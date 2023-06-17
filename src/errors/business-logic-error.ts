@@ -1,7 +1,8 @@
-import HttpException from './http-error';
+import { StatusCodes } from 'http-status-codes';
+import HttpError from './http-error';
 
-export default class BusinessLogicError extends HttpException {
+export default class BusinessLogicError extends HttpError {
     constructor(message: string) {
-        super(409, message);
+        super(StatusCodes.CONFLICT, message);
     }
 }

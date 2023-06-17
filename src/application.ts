@@ -1,10 +1,9 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import { Request, Response, NextFunction } from 'express';
 
 import ErrorMiddleware from './middlewares/error-middleware';
-import SequelizeConnection from './services/sequalize-connection';
+import SequelizeConnection from './services/sequelize-connection';
 import UserRoute from './routes/user-route';
 
 dotenv.config();
