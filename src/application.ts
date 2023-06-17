@@ -32,7 +32,7 @@ class Application {
     private initRoutes() {
         const userRoute = new UserRoute();
         this.app.use('/api', userRoute.router);
-        this.app.get('/api/key', JwtMiddleware.signJwt);
+        this.app.get('/api/key', JwtMiddleware.sign);
     }
 
     private initMiddleware() {

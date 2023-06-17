@@ -6,7 +6,7 @@ import MissingAuthorizationHeader from '../errors/missing-authorization-header-e
 import InvalidAuthorizationType from '../errors/invalid-authorization-type-error';
 
 export default class JwtMiddleware {
-    static verifyJwt = (req: Request, res: Response, next: NextFunction) => {
+    static verify = (req: Request, res: Response, next: NextFunction) => {
         try {
             const authorizationHeader = req.headers.authorization;
             if (!authorizationHeader) {
@@ -26,7 +26,7 @@ export default class JwtMiddleware {
         }
     };
 
-    static signJwt = (req: Request, res: Response, next: NextFunction) => {
+    static sign = (req: Request, res: Response, next: NextFunction) => {
         try {
             const payload = crypto.randomBytes(16).toString('hex');
             const token = JwtService.sign(payload);

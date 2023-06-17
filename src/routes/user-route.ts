@@ -1,6 +1,7 @@
 import { Router } from 'express';
 
 import UserController from '../controllers/user-controller';
+import JwtMiddleware from '../middlewares/jwt-middleware';
 
 export default class UserRoute {
     router = Router();
@@ -11,10 +12,30 @@ export default class UserRoute {
     }
 
     private initRoutes = (): void => {
-        this.router.get('/users', this.userController.getUsers);
-        this.router.get('/user/:id', this.userController.getUserById);
-        this.router.post('/user', this.userController.createUser);
-        this.router.put('/user/:id', this.userController.updateUser);
-        this.router.delete('/user/:id', this.userController.deleteUser);
+        this.router.get(
+            '/users',
+            JwtMiddleware.verify,
+            this.userController.getUsers
+        );
+        this.router.get(
+            '/user/:id',
+            JwtMiddleware.verify,
+            this.userController.getUserById
+        );
+        this.router.post(
+            '/user',
+            JwtMiddleware.verify,
+            this.userController.createUser
+        );
+        this.router.patch(
+            '/user/:id',
+            JwtMiddleware.verify,
+            this.userController.updateUser
+        );
+        this.router.delete(
+            '/user/:id',
+            JwtMiddleware.verify,
+            this.userController.deleteUser
+        );
     };
 }
