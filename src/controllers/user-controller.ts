@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 
 import UserService from '../services/user-service';
-import UserModel from '../models/user';
+import UserValidator from '../validators/user-validator';
 
 export default class UserController {
     private userService = new UserService();
@@ -47,10 +47,11 @@ export default class UserController {
         res: Response,
         next: NextFunction
     ): Promise<void> => {
-        const user = req.body as UserModel;
+        const user = req.body as unknown;
 
         try {
-            await this.userService.createUser(user);
+            const validatedUser = await UserValidator.createUser(user);
+            await this.userService.createUser(validatedUser);
 
             res.status(StatusCodes.CREATED).send();
         } catch (error) {
@@ -64,10 +65,11 @@ export default class UserController {
         next: NextFunction
     ): Promise<void> => {
         const id = Number(req.params.id);
-        const user = req.body as UserModel;
+        const user = req.body as unknown;
 
         try {
-            await this.userService.updateUser(id, user);
+            const validatedUser = await UserValidator.updateUser(user);
+            await this.userService.updateUser(id, validatedUser);
 
             res.status(StatusCodes.OK).send();
         } catch (error) {

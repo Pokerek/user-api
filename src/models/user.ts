@@ -4,6 +4,15 @@ import SequelizeConnection from '../services/sequalize-connection';
 
 import { UserRole } from '../generic/constants';
 
+export interface User {
+    firstName?: string;
+    lastName?: string;
+    email: string;
+    role: string;
+}
+
+export type UserUpdate = Partial<User>;
+
 export default class UserModel extends Model {
     declare id: number;
     declare firstName: string;

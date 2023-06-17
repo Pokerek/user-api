@@ -1,4 +1,4 @@
-import UserModel from '../models/user';
+import UserModel, { User, UserUpdate } from '../models/user';
 
 import UserAlreadyExist from '../errors/user-already-exist-error';
 import UserNotFound from '../errors/user-not-found-error';
@@ -12,7 +12,7 @@ export default class UserService {
         return await UserModel.findByPk(id);
     };
 
-    createUser = async (user: UserModel): Promise<void> => {
+    createUser = async (user: User): Promise<void> => {
         const foundUser = await UserModel.findOne({
             where: {
                 email: user.email
@@ -30,7 +30,7 @@ export default class UserService {
         });
     };
 
-    updateUser = async (id: number, user: UserModel): Promise<void> => {
+    updateUser = async (id: number, user: UserUpdate): Promise<void> => {
         const foundUser = await UserModel.findByPk(id);
 
         if (!foundUser) {
