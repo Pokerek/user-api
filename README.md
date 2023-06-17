@@ -1,6 +1,6 @@
-# API Server Application Readme
+# User API
 
-This repository contains an API server application written in TypeScript using Node.js and Express.js. The application utilizes several packages to enhance its functionality.
+This repository contains an User API application written in TypeScript using Node.js and Express.js. The application utilizes several packages to enhance its functionality. The main feature in this API is CRUD for user.
 
 ## Installation
 
